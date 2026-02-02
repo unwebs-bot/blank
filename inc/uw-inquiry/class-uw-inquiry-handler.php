@@ -652,19 +652,24 @@ class UW_Inquiry_Handler
         $message .= "접수일시: " . date('Y-m-d H:i:s') . "\n\n";
         $message .= "----------------------------------------\n\n";
 
+        $attachments = array();
+
         foreach ($fields as $field) {
             if (!empty($field['enabled']) && isset($entry_data[$field['id']])) {
                 $value = $entry_data[$field['id']];
-                
+
                 // 파일 필드 처리 (배열인 경우)
                 if (is_array($value)) {
-                    if (isset($value['name'])) {
+                    if (isset($value['file']) && file_exists($value['file'])) {
+                        $attachments[] = $value['file'];
+                        $value = $value['name'] . ' (첨부파일)';
+                    } elseif (isset($value['name'])) {
                         $value = $value['name'] . ' (첨부파일)';
                     } else {
                         $value = implode(', ', $value);
                     }
                 }
-                
+
                 $message .= $field['label'] . ": " . $value . "\n\n";
             }
         }
@@ -680,7 +685,7 @@ class UW_Inquiry_Handler
 
         // 각 이메일 주소로 발송
         foreach ($emails as $email) {
-            $result = wp_mail($email, $mail_subject, $message, $headers);
+            $result = wp_mail($email, $mail_subject, $message, $headers, $attachments);
             
             if (defined('WP_DEBUG') && WP_DEBUG) {
                 if ($result) {

@@ -87,3 +87,22 @@ require_once get_template_directory() . '/inc/uw-inquiry/class-uw-inquiry-handle
 require_once get_template_directory() . '/inc/uw-gallery/class-uw-gallery-cpt.php';
 require_once get_template_directory() . '/inc/uw-gallery/class-uw-gallery-admin.php';
 require_once get_template_directory() . '/inc/uw-gallery/class-uw-gallery-engine.php';
+
+/**
+ * SMTP Mail Configuration
+ * wp-config.php에 SMTP 상수가 정의되어 있을 때만 동작
+ */
+add_action('phpmailer_init', function ($phpmailer) {
+    if (!defined('SMTP_HOST') || !defined('SMTP_USERNAME')) {
+        return;
+    }
+    $phpmailer->isSMTP();
+    $phpmailer->Host       = SMTP_HOST;
+    $phpmailer->SMTPAuth   = true;
+    $phpmailer->Port       = SMTP_PORT;
+    $phpmailer->SMTPSecure = SMTP_SECURE;
+    $phpmailer->Username   = SMTP_USERNAME;
+    $phpmailer->Password   = SMTP_PASSWORD;
+    $phpmailer->From       = SMTP_USERNAME;
+    $phpmailer->FromName   = get_bloginfo('name');
+});

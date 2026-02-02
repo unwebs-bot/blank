@@ -785,6 +785,18 @@ EOT;
                 <input type="text" id="notify_emails" name="notify_emails" value="<?php echo esc_attr($notify_emails); ?>"
                   class="large-text" placeholder="admin@example.com, sales@example.com">
                 <p class="description">쉼표로 구분하여 여러 이메일을 입력할 수 있습니다.</p>
+                <div class="notice notice-info inline" style="margin-top:10px; padding:10px 14px;">
+                  <p style="margin:0 0 6px;"><strong>커스텀 도메인 이메일 사용 안내</strong> (예: contact@mydomain.co.kr)</p>
+                  <p style="margin:0; font-size:12.5px; color:#555;">
+                    자체 도메인 이메일로 수신하려면 해당 도메인의 <strong>DNS에 MX 레코드</strong>가 설정되어 있어야 합니다.<br>
+                    MX 레코드가 없으면 메일이 발송되더라도 수신할 서버가 없어 메일이 도착하지 않습니다.<br><br>
+                    <strong>설정 방법:</strong> 도메인 관리(카페24, 가비아 등) > DNS 관리 > MX 레코드 추가<br>
+                    <code>호스트: @ | 타입: MX | 값: mail.mydomain.co.kr | 우선순위: 10</code><br><br>
+                    또는 <strong>Google Workspace</strong>, <strong>네이버 웍스</strong> 등 외부 메일 서비스를 연결하면<br>
+                    해당 서비스에서 MX 레코드 값을 안내받을 수 있습니다.<br><br>
+                    <em>Gmail, Naver 등 일반 메일 주소는 별도 설정 없이 바로 수신 가능합니다.</em>
+                  </p>
+                </div>
               </td>
             </tr>
             <tr>
